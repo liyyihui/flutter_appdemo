@@ -3,6 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_app3/Ben/HomeBen.dart';
 
    /// 主页
 class AppHome extends StatelessWidget{
@@ -32,8 +33,9 @@ class HomeAppWidget extends StatefulWidget{
 loadData() async {
   try {
     Response response = await Dio().get("https://www.wanandroid.com/article/list/0/json");
-    print(response.data);
-    return response;
+    HomeData data =  response.data;
+    print(data.data);
+    return data;
   } catch (e) {
     print(e);
     return null;
@@ -42,6 +44,7 @@ loadData() async {
 
 
 getBody() {
+  print(loadData());
   if (loadData().length != 0) {
     return ListView.builder(
         itemCount: loadData().length,

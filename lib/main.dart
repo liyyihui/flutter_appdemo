@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'AppHttp/Mhttp.dart';
+import 'package:flutter_app3/Menu/Setup.dart';
+import 'package:flutter_app3/Menu/home.dart';
+import 'package:flutter_app3/Menu/project.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
@@ -34,7 +36,7 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
     super.initState();
     tabController = new TabController(
         vsync: this,     //动画效果的异步处理，默认格式，背下来即可
-        length: 7     //需要控制的Tab页数量
+        length: 3     //需要控制的Tab页数量
 
     );
     print("初始化");
@@ -66,10 +68,7 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
               ),
               new Tab(text: "项目"),
               new Tab(text: "体系"),
-              new Tab(text: "公众号"),
-              new Tab(text: "导航"),
-              new Tab(text: "项目分类"),
-              new Tab(text: "工具"),
+
             ],
             controller: tabController ,
           ),
@@ -77,67 +76,16 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
         body: new TabBarView(
           controller: tabController,
             children:<Widget>[
-
-              new ListView(
-                children: <Widget>[
-                  Text("项目"),
-                ],
-              ),
-              new ListView(
-                children: <Widget>[
-                  Text("体系"),
-                ],
-              ),
-              new ListView(
-                children: <Widget>[
-                  Text("公众号"),
-                ],
-              ),
-              new ListView(
-                children: <Widget>[
-                  Text("导航"),
-                ],
-              ),
-              new ListView(
-                children: <Widget>[
-                  Text("项目"),
-                ],
-              ),
-              new ListView(
-                children: <Widget>[
-                  Text("工具"),
-                ],
-              ),
+              AppHome(),
+              project(),
+              SeTup(),
             ]
         )
     );
 
   }
 
-  void _login() {
-    print({'phone': phoneController.text, 'password': phoneController2.text});
-    if (phoneController.text.length != 11) {
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('手机号码格式不对'),
-          ));
-    } else if (phoneController2.text.length == 0) {
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('请填写密码'),
-          ));
-    } else {
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('登录成功'),
-          ));
 
-      onTextClear();
-    }
-  }
   void onTextClear() {
     setState(() {
       phoneController.clear();

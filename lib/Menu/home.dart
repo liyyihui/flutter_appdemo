@@ -1,11 +1,22 @@
 
-import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../main.dart';
 
- class _MyHomeAppState extends State<MyAppHome>{
+   /// 主页
+class AppHome extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return HomeAppWidget();
+  }
+}
+class HomeAppWidget extends StatefulWidget{
+  _MyHomeAppState createState() => new _MyHomeAppState();
+}
+
+ class _MyHomeAppState extends State<HomeAppWidget>{
    @override
    void initState() {
      loadData();
@@ -14,9 +25,7 @@ import '../main.dart';
    Widget build(BuildContext context) {
      return Scaffold(
 
-       body: Center(
-         child: getBody(),
-       ),
+       body:Text("首页")
      );
    }
  }

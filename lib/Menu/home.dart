@@ -32,9 +32,8 @@ class HomeAppWidget extends StatefulWidget{
 loadData() async {
   try {
     Response response = await Dio().get("https://www.wanandroid.com/article/list/0/json");
-    print(response);
+    print(response.data);
     return response;
-
   } catch (e) {
     print(e);
     return null;

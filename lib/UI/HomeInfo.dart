@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_app3/UI/Btn.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class homeinfo extends StatelessWidget{
@@ -16,11 +17,16 @@ class homeinfo extends StatelessWidget{
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title,overflow: TextOverflow.ellipsis,)
+        title: Text(title,overflow: TextOverflow.ellipsis),
+       actions: <Widget>[
+         mollectionbtn(),
+       ],
       ),
       body: homeinfowidget(url:url),
     );
   }
+
+
 }
 
 class homeinfowidget extends StatefulWidget {

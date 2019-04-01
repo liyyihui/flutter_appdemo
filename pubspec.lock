@@ -22,6 +22,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.8"
+  banner_view:
+    dependency: "direct main"
+    description:
+      name: banner_view
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -179,6 +186,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_webview_plugin:
+    dependency: "direct main"
+    description:
+      name: flutter_webview_plugin
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.3"
   fluttertoast:
     dependency: "direct main"
     description:

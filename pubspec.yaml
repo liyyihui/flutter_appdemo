@@ -34,6 +34,10 @@ dependencies:
   package_info: ^0.3.2
   #实体类
   json_annotation: ^2.0.0
+  #banner
+  banner_view: ^1.1.2
+  #WebView
+  flutter_webview_plugin: ^0.3.3
 
 dev_dependencies:
   flutter_test:

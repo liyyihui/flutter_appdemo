@@ -19,13 +19,13 @@ class homeinfo extends StatelessWidget{
       appBar: AppBar(
         title: Text(title,overflow: TextOverflow.ellipsis),
        actions: <Widget>[
-         mollectionbtn(),
+
+      mollectionbtn(),
        ],
       ),
       body: homeinfowidget(url:url),
     );
   }
-
 
 }
 
@@ -50,7 +50,7 @@ class homeinfostate extends State<homeinfowidget>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return new WebviewScaffold(
-        url: "www.baidu.com",
+        url: url,
       withZoom: true,  // 允许网页缩放
       withLocalStorage: true, // 允许LocalStorage
       withJavascript: true, // 允许执行js代码
@@ -64,7 +64,30 @@ class homeinfostate extends State<homeinfowidget>{
     webviewPlugin.close();
     onStateChanged  = webviewPlugin.onStateChanged.listen((WebViewStateChanged  state){
       // state.type是一个枚举类型，取值有：WebViewState.shouldStart, WebViewState.startLoad, WebViewState.finishLoad
-        print(state.type);
+       switch(state.type){
+
+       // 准备加载
+         case WebViewState.shouldStart:
+
+           break;
+       // 开始加载
+         case WebViewState.startLoad:
+
+           break;
+
+       // 加载完成
+         case WebViewState.finishLoad:
+           print("加载完成");
+           print("进来跟新页面");
+
+           break;
+         case WebViewState.abortLoad:
+
+           break;
+
+       }
+
+
     });
 
 
@@ -74,7 +97,8 @@ class homeinfostate extends State<homeinfowidget>{
   @override
   void dispose() {
     // TODO: implement dispose
-    onUrlChanged.cancel();
+    print("销毁");
+    //onUrlChanged.cancel();
     onStateChanged.cancel();
     webviewPlugin.dispose();
     super.dispose();

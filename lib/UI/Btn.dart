@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 class mollectionbtn extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,9 @@ class mollectionbtnwidgit extends StatefulWidget{
     // TODO: implement createState
     return mollectionbtnstate();
   }
-
+  bool getclick(){
+    return false;
+  }
 }
 
 class mollectionbtnstate extends State<mollectionbtnwidgit>{
@@ -24,7 +26,7 @@ class mollectionbtnstate extends State<mollectionbtnwidgit>{
     return IconButton(
       icon:setIcon() ,
       onPressed: (){
-
+           print("点击");
         setState(() {
         });
       },
@@ -34,14 +36,33 @@ class mollectionbtnstate extends State<mollectionbtnwidgit>{
     return click;
    }
   bool click = false;
+  int index = 0;
   setIcon(){
-    print("点击收藏"+click.toString());
-    if(click){
-      click = false;
-      return Icon(Icons.favorite);
-    }else{
-      click = true;
+    if(index == 0 || index == 1){
+      index = ++index;
       return Icon(Icons.favorite_border);
     }
+    if(!click){
+      click = true;
+      Fluttertoast.showToast(
+          msg: "收藏成功",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 1,
+         );
+
+      return Icon(Icons.favorite);
+    }else{
+     Fluttertoast.showToast(
+  msg: "取消收藏",
+  toastLength: Toast.LENGTH_SHORT,
+  gravity: ToastGravity.BOTTOM,
+  timeInSecForIos: 1,
+     );
+     click = false;
+     return Icon(Icons.favorite_border);
   }
+
+    }
+
 }

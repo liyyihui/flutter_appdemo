@@ -30,22 +30,19 @@ class MyAppHome extends StatefulWidget{
 class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMixin{
   TextEditingController phoneController = new TextEditingController();
   TextEditingController phoneController2 = new TextEditingController();
-  TabController tabController ;
+  PageController pagecontroller ;
+  int _currentPageIndex = 0;
   @override
   void initState() {
     super.initState();
-    tabController = new TabController(
-        vsync: this,     //动画效果的异步处理，默认格式，背下来即可
-        length: 3     //需要控制的Tab页数量
-
-    );
+    pagecontroller = new PageController(initialPage: 0);
     print("初始化");
    // geTestHttp();
   }
 
   @override
   void dispose() {
-    tabController .dispose();
+    pagecontroller .dispose();
     super.dispose();
   }
   onPressSecondBtn(){
@@ -55,32 +52,66 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
         )
     );
   }
+
+  List layoutlist = [
+  AppHome(),
+  project(),
+  SeTup(),
+  ];
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold(
         appBar: new AppBar(
           title: Text("玩Android"),
-          bottom:  new TabBar(
-            isScrollable: true,
-            tabs:<Widget>[
-              new Tab(text: "首页",
-              ),
-              new Tab(text: "项目"),
-              new Tab(text: "体系"),
 
-            ],
-            controller: tabController ,
-          ),
         ),
-        body: new TabBarView(
-          controller: tabController,
-            children:<Widget>[
-              AppHome(),
-              project(),
-              SeTup(),
-            ]
-        )
+        body:PageView.builder(
+          onPageChanged:_onPageChanged,
+          controller: pagecontroller,
+          itemBuilder: (BuildContext context,int index){
+           return layoutlist[index];
+          },
+          itemCount: 3,
+        ),
+            drawer: new Drawer(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Colors.lightBlueAccent,
+                      image: DecorationImage(
+                        image: AssetImage('mantitle.png')
+                      )
+                    ),
+                  )
+                ],
+              )
+            ), //侧方位菜单
+            bottomNavigationBar: Material(
+              color:Colors.white,
+              child: BottomNavigationBar(items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  title: Text("首页")
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.adb),
+                  title: Text("项目")
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.airplay),
+                    title: Text("体系")
+                ),
+              ],
+              currentIndex: _currentPageIndex,
+                onTap: (index){
+                  pagecontroller.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.ease);
+                },
+
+              ),
+            ),
     );
 
   }
@@ -90,6 +121,13 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
     setState(() {
       phoneController.clear();
       phoneController2.clear();
+    });
+  }
+
+  _onPageChanged( int index) {
+
+    setState(() {
+      _currentPageIndex = index;
     });
   }
 }

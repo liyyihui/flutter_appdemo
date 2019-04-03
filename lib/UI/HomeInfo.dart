@@ -20,15 +20,20 @@ class homeinfo extends StatelessWidget{
         title: Text(title,overflow: TextOverflow.ellipsis),
        actions: <Widget>[
 
-      mollectionbtn(),
+      mollectionbtn(
+        onTap: (isok) => favoriteclick(isok),
+      ),
        ],
       ),
       body: homeinfowidget(url:url),
     );
   }
 
-}
+  favoriteclick(bool isok) {
+      print("点击"+isok.toString());
+  }
 
+}
 class homeinfowidget extends StatefulWidget {
   String url;
   homeinfowidget({Key key, @required this.url}) : super(key: key);

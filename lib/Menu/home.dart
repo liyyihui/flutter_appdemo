@@ -21,11 +21,11 @@ class AppHome extends StatelessWidget{
     return HomeAppWidget();
   }
 }
-class HomeAppWidget extends StatefulWidget{
+class HomeAppWidget extends StatefulWidget {
   _MyHomeAppState createState() => new _MyHomeAppState();
 }
 
- class _MyHomeAppState extends State<HomeAppWidget>{
+ class _MyHomeAppState extends State<HomeAppWidget> with AutomaticKeepAliveClientMixin{
    HomeData mdata;
    List<String> url = new List();
    int next = 1;
@@ -33,9 +33,8 @@ class HomeAppWidget extends StatefulWidget{
    GlobalKey<RefreshHeaderState> _headerKey = new GlobalKey<RefreshHeaderState>();
    GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
    SwiperController _swiperController;
-    List image = [
+   BannerImage mImagedata;
 
-    ];
    @override
    void initState() {
     getbannder();
@@ -57,20 +56,23 @@ class HomeAppWidget extends StatefulWidget{
 
                    body: Column(
                      children: <Widget>[
+                         Container(
+                           height: 170,
+                             child: Swiper(
+                               itemCount: url.length,
+                               itemBuilder: (BuildContext context,int index ){
+                                 return Image.network(url[index],fit: BoxFit.fill,);
+                               },
+                               autoplay: true,//自动循环
+                               pagination: SwiperPagination(),
+                               controller: _swiperController,
+                               onTap: (index)=>banneritemclick(index),
+                             ),
+                         ),
 
-                     Expanded(
-                       child:   Swiper(
-                         itemCount: url.length,
-                         itemBuilder: (BuildContext context,int index ){
-                           return Image.network(url[index],fit: BoxFit.fill,);
-                         },
-                         pagination: SwiperPagination(),
-                         controller: _swiperController,
-
-                       ),
-                     ),
                         //getBody()
                        Expanded(
+
                          child:new EasyRefresh(
            key: _easyRefreshKey,
            autoLoad: false,
@@ -115,6 +117,7 @@ class HomeAppWidget extends StatefulWidget{
            child:getBody()
 
          ),
+
                        )
                      ],
                    ),
@@ -180,7 +183,10 @@ class HomeAppWidget extends StatefulWidget{
 
    onitemidex(int index) {
      print("点击"+index.toString());
-     Navigator.push(context, new MaterialPageRoute(builder: (context) => new homeinfo( url :mdata.data.datas[index].link,title:mdata.data.datas[index].title)),
+     Navigator.push(context, new MaterialPageRoute(
+         builder: (context) => new homeinfo(
+             url :mdata.data.datas[index].link,
+             title:mdata.data.datas[index].title)),
      );
    }
 
@@ -188,16 +194,30 @@ class HomeAppWidget extends StatefulWidget{
    ///获取banner 图片资源
    getbannder() async {
     Response response = await Dio().get("http://www.wanandroid.com/banner/json/");
-    BannerImage mImagedata = BannerImage.fromJson(response.data);
+     mImagedata = BannerImage.fromJson(response.data);
     for( int i= 0;i<mImagedata.data.length;i++){
     url.add(mImagedata.data[i].imagePath);
-    print("路径"+mImagedata.data[i].imagePath);
+
     }
     setState(() {
       print("重新绘制图片");
     });
 
+
   }
+
+  banneritemclick(index) {
+
+    Navigator.push(context, new MaterialPageRoute(
+        builder: (context) => new homeinfo(
+            url :mImagedata.data[index].url,
+            title:mImagedata.data[index].title)),
+    );
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
  }
 
 

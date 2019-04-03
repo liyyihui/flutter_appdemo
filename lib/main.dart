@@ -36,7 +36,7 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
   void initState() {
     super.initState();
     pagecontroller = new PageController(initialPage: 0);
-    print("初始化");
+
    // geTestHttp();
   }
 

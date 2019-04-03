@@ -40,6 +40,10 @@ dependencies:
   flutter_webview_plugin: ^0.3.3
   #下拉刷新上拉加载
   flutter_easyrefresh: ^1.2.7
+ #占位图
+  transparent_image: ^0.1.0
+ #banner
+  flutter_swiper : ^1.1.6
 
 dev_dependencies:
   flutter_test:

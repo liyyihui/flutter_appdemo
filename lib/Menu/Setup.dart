@@ -11,13 +11,18 @@ class _SetupWidget extends StatefulWidget {
   _SetupState createState() => new _SetupState();
 }
 
-class _SetupState extends State<_SetupWidget>{
+class _SetupState extends State<_SetupWidget> with AutomaticKeepAliveClientMixin{
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    super.build(context);
     return  Scaffold(
 
         body:Text("体系")
     );;
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

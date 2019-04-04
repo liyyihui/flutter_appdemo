@@ -26,6 +26,10 @@ class HomeAppWidget extends StatefulWidget {
 }
 
  class _MyHomeAppState extends State<HomeAppWidget> with AutomaticKeepAliveClientMixin{
+
+   @override
+   // TODO: implement wantKeepAlive
+   bool get wantKeepAlive => true;
    HomeData mdata;
    List<String> url = new List();
    int next = 1;
@@ -51,9 +55,8 @@ class HomeAppWidget extends StatefulWidget {
   }
    @override
    Widget build(BuildContext context) {
-
+     super.build(context);
      return Scaffold(
-
                    body: Column(
                      children: <Widget>[
                          Container(
@@ -215,9 +218,7 @@ class HomeAppWidget extends StatefulWidget {
     );
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+
  }
 
 

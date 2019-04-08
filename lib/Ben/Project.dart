@@ -84,6 +84,7 @@ class Datas {
   String link;
   String niceDate;
   String origin;
+  String prefix;
   String projectLink;
   int publishTime;
   int superChapterId;
@@ -109,6 +110,7 @@ class Datas {
         this.link,
         this.niceDate,
         this.origin,
+        this.prefix,
         this.projectLink,
         this.publishTime,
         this.superChapterId,
@@ -134,6 +136,7 @@ class Datas {
     link = json['link'];
     niceDate = json['niceDate'];
     origin = json['origin'];
+    prefix = json['prefix'];
     projectLink = json['projectLink'];
     publishTime = json['publishTime'];
     superChapterId = json['superChapterId'];
@@ -166,6 +169,7 @@ class Datas {
     data['link'] = this.link;
     data['niceDate'] = this.niceDate;
     data['origin'] = this.origin;
+    data['prefix'] = this.prefix;
     data['projectLink'] = this.projectLink;
     data['publishTime'] = this.publishTime;
     data['superChapterId'] = this.superChapterId;

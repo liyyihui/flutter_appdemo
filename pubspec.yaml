@@ -44,6 +44,8 @@ dependencies:
   transparent_image: ^0.1.0
  #banner
   flutter_swiper : ^1.1.6
+  #shared_preferences存储
+  shared_preferences: ^0.5.1+2
 
 dev_dependencies:
   flutter_test:

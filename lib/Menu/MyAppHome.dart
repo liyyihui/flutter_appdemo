@@ -77,20 +77,32 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            new CircleAvatar(
-                                backgroundImage: AssetImage('assets/images/timg.jpg'),
-                                radius: 35.0
-                            ),
+                              GestureDetector(
+                                child:   CircleAvatar(
+                                  backgroundImage: AssetImage('assets/images/timg.jpg'),
+                                  radius: 35.0,
+
+                                ),
+                                onTap:()=>avatarclick()
+                              ),
+
+
+                           
                             Container(
                                 margin: EdgeInsets.only(left: 6.0),
                                 child:  Column(
                                   crossAxisAlignment: CrossAxisAlignment.start, // 水平方向左对齐
                                   mainAxisAlignment: MainAxisAlignment.center, // 竖直方向居中
                                   children: <Widget>[
-                                    new Text("LYH", style: new TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white),),
+                                    new GestureDetector(
+                                      child: Text("未登陆", style: new TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white),
+
+                                      ),
+                                      onTap: ()=>loginclick(),
+                                    ),
                                     new Text("What's up", style: new TextStyle(
                                         fontSize: 14.0, color: Colors.white),),
                                   ],
@@ -104,23 +116,16 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
                 ),
               ),      //头部
               ListTile(
-                title: Text("菜单1"),
+                title: Text("我的收藏"),
+                trailing: Icon(Icons.keyboard_arrow_right),
+
                 onTap: () => menclick(1),
               ),
               Divider(),
               ListTile(
-                title: Text("菜单2"),
+                title: Text("切换账号"),
+                trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () => menclick(2),
-              ),
-              Divider(),
-              ListTile(
-                title: Text("菜单3"),
-                onTap: () => menclick(3),
-              ),
-              Divider(),
-              ListTile(
-                title: Text("菜单4"),
-                onTap: () => menclick(4),
               ),
               Divider(),
             ],
@@ -185,5 +190,15 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
         break;
 
     }
+  }
+
+  loginclick() {
+
+    print("登陆点击");
+  }
+
+  avatarclick() {
+    print("头像点击");
+
   }
 }

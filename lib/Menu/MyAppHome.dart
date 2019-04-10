@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app3/Base/Utils.dart';
 import 'package:flutter_app3/Menu/Setup.dart';
 import 'package:flutter_app3/Menu/home.dart';
 import 'package:flutter_app3/Menu/project.dart';
+import 'package:flutter_app3/UI/Login/login.dart';
 
 class MyAppHome extends StatefulWidget{
   MyAppHome({Key key, this.title}) : super(key: key);
@@ -10,29 +12,35 @@ class MyAppHome extends StatefulWidget{
   MyAppHomeState createState() => new MyAppHomeState();
 }
 
-class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMixin{
+class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMixin {
   TextEditingController phoneController = new TextEditingController();
   TextEditingController phoneController2 = new TextEditingController();
-  PageController pagecontroller ;
+  PageController pagecontroller;
+  String loginname = "未登陆";
   int _currentPageIndex = 0;
+
   @override
   void initState() {
-    super.initState();
     pagecontroller = new PageController(initialPage: 0);
+    initnameview();
+    print("initState");
+    super.initState();
 
     // geTestHttp();
   }
 
   @override
   void dispose() {
-    pagecontroller .dispose();
+    pagecontroller.dispose();
     super.dispose();
   }
-  onPressSecondBtn(){
+
+  onPressSecondBtn() {
     showDialog(context: context,
-        builder: (context) => AlertDialog(
-          title: Text("点击了"),
-        )
+        builder: (context) =>
+            AlertDialog(
+              title: Text("点击了"),
+            )
     );
   }
 
@@ -41,6 +49,7 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
     project(),
     SeTup(),
   ];
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -51,9 +60,9 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
       body:
 
       PageView.builder(
-        onPageChanged:_onPageChanged,
+        onPageChanged: _onPageChanged,
         controller: pagecontroller,
-        itemBuilder: (BuildContext context,int index){
+        itemBuilder: (BuildContext context, int index) {
           return layoutlist[index];
         },
         itemCount: layoutlist.length,
@@ -66,42 +75,45 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
                 padding: EdgeInsets.zero, /* padding置为0 */
                 child: Stack(
                   children: <Widget>[
-                    Image.asset("assets/images/mantitle.png", fit: BoxFit.fill,width: double.infinity,),
+                    Image.asset("assets/images/mantitle.png", fit: BoxFit.fill,
+                      width: double.infinity,),
                     Align( //放置对齐
                       alignment: FractionalOffset.bottomLeft,
                       child: Container(
                         height: 70.0,
-                        margin: EdgeInsets.only(left: 12.0,bottom: 12.0),
+                        margin: EdgeInsets.only(left: 12.0, bottom: 12.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.min, /* 宽度只用包住子组件即可 */
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                              GestureDetector(
-                                child:   CircleAvatar(
-                                  backgroundImage: AssetImage('assets/images/timg.jpg'),
+                            GestureDetector(
+                                child: CircleAvatar(
+                                  backgroundImage: AssetImage(
+                                      'assets/images/timg.jpg'),
                                   radius: 35.0,
 
                                 ),
-                                onTap:()=>avatarclick()
-                              ),
+                                onTap: () => avatarclick()
+                            ),
 
 
-                           
                             Container(
                                 margin: EdgeInsets.only(left: 6.0),
-                                child:  Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start, // 水平方向左对齐
-                                  mainAxisAlignment: MainAxisAlignment.center, // 竖直方向居中
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  // 水平方向左对齐
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  // 竖直方向居中
                                   children: <Widget>[
                                     new GestureDetector(
-                                      child: Text("未登陆", style: new TextStyle(
+                                      child:  Text(loginname, style: new TextStyle(
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.w400,
                                           color: Colors.white),
-
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      onTap: ()=>loginclick(),
+                                      onTap: () => loginclick(),
                                     ),
                                     new Text("What's up", style: new TextStyle(
                                         fontSize: 14.0, color: Colors.white),),
@@ -114,7 +126,7 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
                     ),
                   ],
                 ),
-              ),      //头部
+              ), //头部
               ListTile(
                 title: Text("我的收藏"),
                 trailing: Icon(Icons.keyboard_arrow_right),
@@ -132,7 +144,7 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
           )
       ), //侧方位菜单
       bottomNavigationBar: Material(
-        color:Colors.white,
+        color: Colors.white,
         child: BottomNavigationBar(items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -148,14 +160,15 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
           ),
         ],
           currentIndex: _currentPageIndex,
-          onTap: (index){
-            pagecontroller.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.ease);
+          onTap: (index) {
+            pagecontroller.animateToPage(
+                index, duration: const Duration(milliseconds: 300),
+                curve: Curves.ease);
           },
 
         ),
       ),
     );
-
   }
 
 
@@ -166,8 +179,7 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
     });
   }
 
-  _onPageChanged( int index) {
-
+  _onPageChanged(int index) {
     setState(() {
       _currentPageIndex = index;
     });
@@ -175,9 +187,15 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
 
   menclick(int i) {
     Navigator.of(context).pop();
-    switch(i){
+    switch (i) {
       case 1:
-        print("菜单1");
+        print("我的收藏"+loginname);
+        if(loginname!="未登陆"){
+          print("去收藏");
+        }else{ //去登陆页面
+             print("去登陆");
+             Navigator.push(context, new MaterialPageRoute(builder: (context)=> loginfulwidget()));
+        }
         break;
       case 2:
         print("菜单2");
@@ -188,17 +206,37 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
       case 4:
         print("菜单4");
         break;
-
     }
   }
 
   loginclick() {
-
     print("登陆点击");
   }
 
   avatarclick() {
     print("头像点击");
-
   }
+
+  setnameview(String mname) {
+
+    if (mname.isNotEmpty&&mname!="null") {
+      print("进来设置");
+      loginname = mname;
+      setState(() {
+
+      });
+    }
+  }
+
+   initnameview() {
+    print("进initnameview");
+     Future<String> name = Utils.getloginname();
+     name.then((String name) {
+       print("————————" + name);
+       setnameview(name);
+     });
+
+
+   }
 }
+

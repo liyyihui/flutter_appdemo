@@ -115,21 +115,23 @@ class _loginstate extends State<loginfulwidget> {
   _forgetpassword() {
     return Align(
       alignment: Alignment.topRight,
-      child:Row(
+      child: SizedBox(height: 35,
+         width: 150,
+       child:  Row(
+         children: <Widget>[
+           GestureDetector(
+             child: Text("没有账号",
+               style: TextStyle(color: Colors.blue),
+             ),
+             onTap: ()=>_registeredclick(),
+           ),
+           GestureDetector(
+             child: Text("忘记密码？"),
+             onTap: ()=>_forgetpasswordclick(),
+           ),
+         ],
+       ),
 
-        children: <Widget>[
-
-          GestureDetector(
-            child: Text("没有账号",
-              style: TextStyle(color: Colors.blue),
-            ),
-            onTap: ()=>_registeredclick(),
-          ),
-          GestureDetector(
-            child: Text("忘记密码？"),
-            onTap: ()=>_forgetpasswordclick(),
-          ),
-        ],
       )
     );
     

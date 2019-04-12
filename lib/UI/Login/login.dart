@@ -1,4 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app3/Base/Utils.dart';
+import 'package:flutter_app3/Ben/user.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 class loginfulwidget extends  StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -9,6 +13,22 @@ class loginfulwidget extends  StatefulWidget{
 }
 
 class _loginstate extends State<loginfulwidget> {
+
+  TextEditingController _namrcontroller ,_passwordcontroller;
+  bool isname = true,ispaw = false;
+  FocusNode namebode;
+  FocusNode pawnode ;
+
+  bool  login = false;
+    @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _namrcontroller  =  TextEditingController();
+    _passwordcontroller = TextEditingController();
+     namebode = FocusNode();
+   pawnode = FocusNode();
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -21,6 +41,8 @@ class _loginstate extends State<loginfulwidget> {
    body: _loginbody(),
     );
   }
+
+
    ///登陆页面主布局
   _loginbody() {
    return ListView(
@@ -29,12 +51,21 @@ class _loginstate extends State<loginfulwidget> {
      children: <Widget>[
        _buildtitle(),
        _buildtitleline(),
-        SizedBox(height: 40),
+        SizedBox(height: 80),
        _newusername(),
+       Center(child: new CircularProgressIndicator()),
+       // 圆形进度条
        SizedBox(height: 10),
        _userpassword(),
+   //    checkloginview(),
+     //  Center(child: new CircularProgressIndicator()),
        SizedBox(height: 10),
        _forgetpassword(),
+       SizedBox(height: 60),
+       _loginbtn(),
+
+
+
      ],
    ),
        ],
@@ -74,7 +105,9 @@ class _loginstate extends State<loginfulwidget> {
    return  Container(
        child: SizedBox(width: 250,height: 45,
        child: TextField(
-         autofocus: false,
+         focusNode: pawnode,
+         autofocus: ispaw,
+         controller: _passwordcontroller,
          decoration: InputDecoration(
            hintText: "请输入密码",
            prefixIcon: Icon(Icons.https),
@@ -83,6 +116,16 @@ class _loginstate extends State<loginfulwidget> {
            ),
            contentPadding: EdgeInsets.symmetric(vertical: 10)
          ),
+         obscureText: true,
+         onEditingComplete: (){
+           if(_passwordcontroller.text.length>=1){
+             FocusScope.of(context).requestFocus(FocusNode());
+             _login();
+           }else{
+             Utils.toast("请输入密码");
+             return;
+           }
+         },
        ),
        ),
    );
@@ -95,18 +138,26 @@ class _loginstate extends State<loginfulwidget> {
       child: SizedBox(width: 250,
         height: 45,
       child: TextField(
-        autofocus: true,
-       
+        focusNode: namebode,
+        autofocus: isname,
+       controller: _namrcontroller,
       decoration: InputDecoration(
         hintText: "请输入账号",
         prefixIcon: Icon(Icons.account_circle),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-      
         ),
           contentPadding: EdgeInsets.symmetric(vertical: 10)
       ),
+      onEditingComplete: (){
 
+      if(_namrcontroller.text.length>=1){
+         FocusScope.of(context).requestFocus(pawnode);
+      }else{
+        Utils.toast("请输入账号");
+      }
+
+      },
       ),
       ),
     );
@@ -145,5 +196,92 @@ class _loginstate extends State<loginfulwidget> {
   _registeredclick() {
     print("注册");
 
+  }
+  ///登陆按钮
+  _loginbtn() {
+    return Container(
+      child: SizedBox(
+        width: 140,
+      height: 40,
+        child:Material(
+          child: FlatButton(
+              onPressed: (){
+                print("点击登陆");
+                    _login();
+              },
+              child: Text("登陆",
+              style: TextStyle(
+                color: Colors.white
+              ),
+              ),
+              color: Colors.blue,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+            ),
+          )
+        ) ,
+      ),
+    );
+  }
+
+   _login() {
+    if(_namrcontroller.text.length<=0){
+      Utils.toast("请输入账号");
+      FocusScope.of(context).requestFocus(namebode);
+      return ;
+    } else if(_passwordcontroller.text.length<=0){
+      Utils.toast("请输入密码");
+      FocusScope.of(context).requestFocus(pawnode);
+      return ;
+    } else {
+
+      SpinKitFadingCircle(
+        itemBuilder: (_, int index) {
+          return DecoratedBox(
+            decoration: BoxDecoration(
+              color: index.isEven ? Colors.red : Colors.green,
+            ),
+          );
+        },
+      );
+     _loginuser(_namrcontroller.text,_passwordcontroller.text);
+
+    }
+
+  }
+
+   _loginuser(name,paw) async {
+     Response response = await Dio().post("https://www.wanandroid.com/user/login",data:{ "username" :name ,"password":paw} );
+     user  data = user.fromJson(response.data);
+
+      if(data.errorCode!=0){
+      Utils.toast(data.errorMsg);
+      }else{
+        Utils.toast("登陆成功");
+      }
+   }
+
+  checkloginview() {
+
+      if(login){
+          return Stack(
+            children: <Widget>[
+              _newusername(),
+              // 圆形进度条
+              SizedBox(height: 10),
+              _userpassword(),
+            ],
+          );
+      }else{
+        return Stack(
+          children: <Widget>[
+            _newusername(),
+            Center(child: new CircularProgressIndicator()),
+            // 圆形进度条
+            SizedBox(height: 10),
+            _userpassword(),
+          ],
+        );
+      }
   }
 }

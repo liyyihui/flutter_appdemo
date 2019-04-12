@@ -1,5 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 class Utils{
     static Future<String>  getloginname() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -31,5 +32,16 @@ class Utils{
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.clear();
 
+    }
+
+    static toast(String msg){
+      Fluttertoast.showToast(
+          msg: msg,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          textColor: Colors.white,
+          backgroundColor: Colors.black45
+      );
     }
 }

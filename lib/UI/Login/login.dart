@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app3/Base/Utils.dart';
 import 'package:flutter_app3/Ben/user.dart';
+import 'package:flutter_app3/UI/NetLoadingDialog.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 class loginfulwidget extends  StatefulWidget{
   @override
@@ -53,12 +54,8 @@ class _loginstate extends State<loginfulwidget> {
        _buildtitleline(),
         SizedBox(height: 80),
        _newusername(),
-       Center(child: new CircularProgressIndicator()),
-       // 圆形进度条
        SizedBox(height: 10),
        _userpassword(),
-   //    checkloginview(),
-     //  Center(child: new CircularProgressIndicator()),
        SizedBox(height: 10),
        _forgetpassword(),
        SizedBox(height: 60),
@@ -79,7 +76,7 @@ class _loginstate extends State<loginfulwidget> {
       padding: EdgeInsets.all(8.0),
       child:  Align(
         alignment: Alignment.centerLeft,
-        child: Text("Login",
+        child: Text("WanAndroid",
           style:TextStyle(fontSize: 42.0) ,
         ),
       )
@@ -116,7 +113,7 @@ class _loginstate extends State<loginfulwidget> {
            ),
            contentPadding: EdgeInsets.symmetric(vertical: 10)
          ),
-         obscureText: true,
+        // obscureText: true,
          onEditingComplete: (){
            if(_passwordcontroller.text.length>=1){
              FocusScope.of(context).requestFocus(FocusNode());
@@ -251,37 +248,48 @@ class _loginstate extends State<loginfulwidget> {
   }
 
    _loginuser(name,paw) async {
-     Response response = await Dio().post("https://www.wanandroid.com/user/login",data:{ "username" :name ,"password":paw} );
-     user  data = user.fromJson(response.data);
+     _showDialog();
 
+     Response response = await Dio().post("https://www.wanandroid.com/user/login",data:{ "username":name ,"password":paw} );
+     user  data = user.fromJson(response.data);
+     print("登陆账号"+name+"密码"+paw);
       if(data.errorCode!=0){
+         login = false;
       Utils.toast(data.errorMsg);
       }else{
-        Utils.toast("登陆成功");
+        login = true;
+        Utils.toast("登陆成功"+data.data.toString());
       }
+      print("登陆调研");
+     Navigator.pop(context);
+
    }
 
-  checkloginview() {
 
-      if(login){
-          return Stack(
-            children: <Widget>[
-              _newusername(),
-              // 圆形进度条
-              SizedBox(height: 10),
-              _userpassword(),
-            ],
-          );
-      }else{
-        return Stack(
-          children: <Widget>[
-            _newusername(),
-            Center(child: new CircularProgressIndicator()),
-            // 圆形进度条
-            SizedBox(height: 10),
-            _userpassword(),
-          ],
+
+  _showDialog() {
+      if(!login){
+        showDialog<Null>(
+          context: context,
+          child: new NetLoadingDialog(
+          ),
+          barrierDismissible: false,
+
         );
+
+      }else{
+        setState(() {
+          print("登陆成功");
+        });
+        return;
       }
+
   }
+
+  __register(Function func) {
+    func();
+  }
+
+
+
 }

@@ -4,6 +4,7 @@ import 'package:flutter_app3/Menu/Setup.dart';
 import 'package:flutter_app3/Menu/home.dart';
 import 'package:flutter_app3/Menu/project.dart';
 import 'package:flutter_app3/UI/Login/login.dart';
+import 'package:flutter/services.dart';
 
 class MyAppHome extends StatefulWidget{
   MyAppHome({Key key, this.title}) : super(key: key);
@@ -53,7 +54,8 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Scaffold(
+    return WillPopScope(
+      child: new Scaffold(
       appBar: new AppBar(
         title: Text("玩Android"),
       ),
@@ -168,10 +170,32 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
 
         ),
       ),
+    ),
+      onWillPop: (){
+        print("点击返回");
+        _showDialog();
+      },
     );
   }
 
+  _showDialog() {
+    showDialog<Null>(
+      context: context,
+      child: new AlertDialog(content: new Text('退出app'), actions: <Widget>[
+        new FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              } else {
+                SystemNavigator.pop();
 
+              }
+            },
+            child: new Text('确定'))
+      ]),
+    );
+  }
   void onTextClear() {
     setState(() {
       phoneController.clear();

@@ -3,6 +3,7 @@ import 'package:flutter_app3/Base/Utils.dart';
 import 'package:flutter_app3/Menu/Setup.dart';
 import 'package:flutter_app3/Menu/home.dart';
 import 'package:flutter_app3/Menu/project.dart';
+import 'package:flutter_app3/UI/Login/CollectionInfo.dart';
 import 'package:flutter_app3/UI/Login/login.dart';
 import 'package:flutter/services.dart';
 
@@ -69,11 +70,12 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
         },
         itemCount: layoutlist.length,
       ),
-      drawer: new Drawer(
+      drawer: new Drawer(  ///侧滑菜单布局
+
           child: ListView(
-            padding: EdgeInsets.zero,
+            padding: EdgeInsets.zero, //解决头不灰色
             children: <Widget>[
-              DrawerHeader(
+              DrawerHeader( //抽屉的头部
                 padding: EdgeInsets.zero, /* padding置为0 */
                 child: Stack(
                   children: <Widget>[
@@ -143,7 +145,8 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
               ),
               Divider(),
             ],
-          )
+          ),
+
       ), //侧方位菜单
       bottomNavigationBar: Material(
         color: Colors.white,
@@ -216,6 +219,8 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
         print("我的收藏"+loginname);
         if(loginname!="未登陆"){
           print("去收藏");
+          Navigator.push(context, new MaterialPageRoute(builder: (context)=> CollectionInfo()));
+
         }else{ //去登陆页面
              print("去登陆");
              Navigator.push(context, new MaterialPageRoute(builder: (context)=> loginfulwidget()));

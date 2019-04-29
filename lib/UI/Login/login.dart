@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app3/Base/Utils.dart';
 import 'package:flutter_app3/Ben/user.dart';
+import 'package:flutter_app3/UI/Login/registered.dart';
 import 'package:flutter_app3/UI/NetLoadingDialog.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 class loginfulwidget extends  StatefulWidget{
@@ -28,7 +29,7 @@ class _loginstate extends State<loginfulwidget> {
     _namrcontroller  =  TextEditingController();
     _passwordcontroller = TextEditingController();
      namebode = FocusNode();
-   pawnode = FocusNode();
+     pawnode = FocusNode();
   }
   @override
   Widget build(BuildContext context) {
@@ -187,18 +188,18 @@ class _loginstate extends State<loginfulwidget> {
   ///忘记密码点击
   _forgetpasswordclick() {
 
-    print("忘记密码");
+    Utils.toast("未开发");
   }
 
   _registeredclick() {
     print("注册");
-
+    Navigator.push(context, new MaterialPageRoute(builder:(context) => new registered()));
   }
   ///登陆按钮
   _loginbtn() {
     return Container(
       child: SizedBox(
-        width: 140,
+        width: 200,
       height: 40,
         child:Material(
           child: FlatButton(
@@ -249,18 +250,29 @@ class _loginstate extends State<loginfulwidget> {
 
    _loginuser(name,paw) async {
      _showDialog();
-
-     Response response = await Dio().post("https://www.wanandroid.com/user/login",data:{ "username":name ,"password":paw} );
+     FormData formData = new FormData.from({
+       "username": name,
+       "password": paw,
+     });
+     Response response = await Dio().post("https://www.wanandroid.com/user/login",data:formData );
      user  data = user.fromJson(response.data);
+     print(response.toString());
+
      print("登陆账号"+name+"密码"+paw);
+
       if(data.errorCode!=0){
          login = false;
       Utils.toast(data.errorMsg);
       }else{
         login = true;
         Utils.toast("登陆成功"+data.data.toString());
+        print("登陆返回"+data.data.username);
+          String test = response.headers.toString().substring(response.headers.toString().indexOf("token_pass"),response.headers.toString().indexOf("loginUserName_wanandroid_com"));
+
+        Utils.setlogininfo(name, paw, test.substring(test.indexOf("=")+1,test.indexOf(";")));
+
       }
-      print("登陆调研");
+
      Navigator.pop(context);
 
    }

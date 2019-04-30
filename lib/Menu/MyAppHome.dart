@@ -258,10 +258,8 @@ class MyAppHomeState extends State<MyAppHome>  with SingleTickerProviderStateMix
   }
 
    initnameview() {
-    print("进initnameview");
      Future<String> name = Utils.getloginname();
      name.then((String name) {
-       print("————————" + name);
        setnameview(name);
      });
 

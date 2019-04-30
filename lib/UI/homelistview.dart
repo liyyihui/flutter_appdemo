@@ -82,8 +82,7 @@ class HomelistViewWidget extends State<HomelistView>{
 
   onitemidex(int position) {
 
-    print("点击"+position.toString());
-    Navigator.push(context, new MaterialPageRoute(builder: (context) => new homeinfo( url :mdata.data.datas[position].link,title:mdata.data.datas[position].title)),
+    Navigator.push(context, new MaterialPageRoute(builder: (context) => homeinfowidget( mdata.data.datas[position],false)),
     );
   }
 }

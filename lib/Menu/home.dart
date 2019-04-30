@@ -187,9 +187,7 @@ class HomeAppWidget extends StatefulWidget {
    onitemidex(int index) {
      print("点击"+index.toString());
      Navigator.push(context, new MaterialPageRoute(
-         builder: (context) => new homeinfo(
-             url :mdata.data.datas[index].link,
-             title:mdata.data.datas[index].title)),
+         builder: (context) => new homeinfowidget( mdata.data.datas[index],false)),
      );
    }
 
@@ -212,9 +210,7 @@ class HomeAppWidget extends StatefulWidget {
   banneritemclick(index) {
 
     Navigator.push(context, new MaterialPageRoute(
-        builder: (context) => new homeinfo(
-            url :mImagedata.data[index].url,
-            title:mImagedata.data[index].title)),
+        builder: (context) =>homeinfowidget( mdata.data.datas[index],false)),
     );
   }
 
